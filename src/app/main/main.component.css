@@ -96,5 +96,5 @@
 
 .scrollable-content {
     /* height: calc(100vw - 500px); */
-    overflow: auto;
+    overflow: visible;
 }

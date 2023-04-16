@@ -82,15 +82,17 @@
 
         </div>
     </mat-card-content>
-    <mat-card-content id="scrlst" class="card-content scrollable-content" style="height: 150px;overflow: auto;">
-        <mat-divider></mat-divider>
-        <div class="flex-col" style="padding-top: 10px;">
+    <mat-card-content id="scrlst" class="card-content" style="height: 150px;overflow-y: scroll;">
+        <div class="flex-col scrollable-content" style="padding: 5px;border-color: lightgray;border-width: 1px;border-style: solid;">
 
 
             <div class="flex-row" *ngFor="let id of rowIds; let i = index">
                 <button mat-stroked-button *ngFor="let player of players" [disabled]="player.rows[i] === undefined"
                     (click)="editScore(player, i)">
-                    {{player.rows[i] ?? '-'}}
+                    <span class="num">
+                        {{player.rows[i] ?? '-'}}
+
+                    </span>
                 </button>
             </div>
 
