@@ -13,16 +13,20 @@
     <mat-divider></mat-divider>
     <mat-card-content>
         <div class="add-score score">
-            <div>Na ťahu: {{currentPlayer.name}}</div>
+            <div>Na ťahu:</div>
+
+            <button mat-flat-button color="accent">{{currentPlayer.name}}</button>
+
             <div>
 
-                <mat-form-field appearance="fill" class="score-field" >
+                <mat-form-field appearance="fill" class="score-field">
                     <mat-label>Skóre</mat-label>
                     <input matInput type="number" [(ngModel)]="scoreValue" readonly>
                 </mat-form-field>
 
             </div>
-            <button mat-fab (click)="addScore()" [disabled]="playersCount < 2">
+            <button mat-fab color="default" (click)="addScore()"
+                [disabled]="playersCount < 2 || scoreValue === undefined">
                 <mat-icon aria-label="label">add</mat-icon>
             </button>
         </div>
@@ -33,38 +37,38 @@
 
             <div class="flex-row">
 
-                <button mat-mini-fab class="num" (click)="keyClick('1')">
+                <button mat-mini-fab color="default" class="num" (click)="keyClick('1')">
                     1
                 </button>
-                <button mat-mini-fab class="num" (click)="keyClick('2')">
+                <button mat-mini-fab color="default" class="num" (click)="keyClick('2')">
                     2
                 </button>
-                <button mat-mini-fab class="num" (click)="keyClick('3')">
+                <button mat-mini-fab color="default" class="num" (click)="keyClick('3')">
                     3
                 </button>
-                <button mat-mini-fab class="num" (click)="keyClick('4')">
+                <button mat-mini-fab color="default" class="num" (click)="keyClick('4')">
                     4
                 </button>
-                <button mat-mini-fab class="num" (click)="keyClick('5')">
+                <button mat-mini-fab color="default" class="num" (click)="keyClick('5')">
                     5
                 </button>
 
             </div>
             <div class="flex-row">
 
-                <button mat-mini-fab class="num" (click)="keyClick('6')">
+                <button mat-mini-fab color="default" class="num" (click)="keyClick('6')">
                     6
                 </button>
-                <button mat-mini-fab class="num" (click)="keyClick('7')">
+                <button mat-mini-fab color="default" class="num" (click)="keyClick('7')">
                     7
                 </button>
-                <button mat-mini-fab class="num" (click)="keyClick('8')">
+                <button mat-mini-fab color="default" class="num" (click)="keyClick('8')">
                     8
                 </button>
-                <button mat-mini-fab class="num" (click)="keyClick('9')">
+                <button mat-mini-fab color="default" class="num" (click)="keyClick('9')">
                     9
                 </button>
-                <button mat-mini-fab class="num" (click)="keyClick('0')">
+                <button mat-mini-fab color="default" class="num" (click)="keyClick('0')">
                     0
                 </button>
 
@@ -73,10 +77,10 @@
 
             <div class="flex-row">
 
-                <button mat-mini-fab class="num" (click)="keyClick('-')">
+                <button mat-mini-fab color="default" class="num" (click)="keyClick('-')">
                     -
                 </button>
-                <button mat-mini-fab class="num" (click)="keyClick('BS')">
+                <button mat-mini-fab color="default" class="num" (click)="keyClick('BS')">
                     <mat-icon>backspace</mat-icon>
                 </button>
 
@@ -84,4 +88,20 @@
 
         </div>
     </mat-card-content>
+
+    <mat-divider></mat-divider>
+
+    <mat-card-content class="card-content">
+        <div class="flex-col">
+
+
+            <div class="flex-row" *ngFor="let id of rowIds; let i = index">
+                <div *ngFor="let player of players">
+                    {{player.rows[i] ?? '-'}}
+                </div>
+            </div>
+
+        </div>
+    </mat-card-content>
+
 </mat-card>

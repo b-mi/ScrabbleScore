@@ -11,8 +11,10 @@ export class MainComponent implements OnInit {
   players: any[] = [];
   currentPlayer: any;
 
-  scoreValue: number = 0;
+  scoreValue: number | undefined = undefined;
   playersCount: number = 0;
+
+  rowIds: number[] = [];
 
 
   constructor() {
@@ -73,8 +75,10 @@ export class MainComponent implements OnInit {
 
   addScore() {
     this.currentPlayer.rows.push(this.scoreValue);
-    this.scoreValue = 0;
-
+    if (this.currentPlayer.rows.length > this.rowIds.length)
+      this.rowIds.push(this.rowIds.length);
+    this.scoreValue = undefined;
+    this.currentPlayer.score = this.currentPlayer.rows.reduce((a: number, b: number) => a + b, 0);
 
     const plyrs = this.players.filter(i => i.play === true);
     const idx = plyrs.indexOf(this.currentPlayer);
@@ -83,7 +87,8 @@ export class MainComponent implements OnInit {
     else
       this.currentPlayer = plyrs[idx + 1];
 
-    console.log('add score', this.scoreValue);
+
+    console.log('add score', this.scoreValue, this.rowIds, this.players);
   }
 
   getPlayersCount() {
