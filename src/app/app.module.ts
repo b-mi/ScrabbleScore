@@ -26,6 +26,7 @@ import { DragComponent } from './drag/drag.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatListModule } from '@angular/material/list';
 import { MainComponent } from './main/main.component';
 
 @NgModule({
@@ -59,6 +60,7 @@ import { MainComponent } from './main/main.component';
     MatToolbarModule,
     MatButtonToggleModule,
     MatDividerModule,
+    MatListModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

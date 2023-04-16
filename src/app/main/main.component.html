@@ -27,7 +27,7 @@
             </div>
             <button mat-fab color="default" (click)="addScore()"
                 [disabled]="playersCount < 2 || scoreValue === undefined">
-                <mat-icon aria-label="label">add</mat-icon>
+                <mat-icon aria-label="label">{{editMode ? 'edit' : 'add'}}</mat-icon>
             </button>
         </div>
     </mat-card-content>
@@ -96,9 +96,10 @@
 
 
             <div class="flex-row" *ngFor="let id of rowIds; let i = index">
-                <div *ngFor="let player of players">
+                <button mat-stroked-button *ngFor="let player of players" [disabled]="player.rows[i] === undefined"
+                    (click)="editScore(player, i)">
                     {{player.rows[i] ?? '-'}}
-                </div>
+                </button>
             </div>
 
         </div>

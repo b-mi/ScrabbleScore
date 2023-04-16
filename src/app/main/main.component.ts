@@ -15,6 +15,8 @@ export class MainComponent implements OnInit {
   playersCount: number = 0;
 
   rowIds: number[] = [];
+  editMode: boolean = false;
+  editIndex: number = 0;
 
 
   constructor() {
@@ -39,6 +41,7 @@ export class MainComponent implements OnInit {
 
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.players, event.previousIndex, event.currentIndex);
+    this.findCurrentPlayer();
   }
 
   playerClick(player: any) {
@@ -49,9 +52,9 @@ export class MainComponent implements OnInit {
   keyClick(key: string) {
     console.log('keyClick', key);
 
-    var val: number = this.scoreValue ?? 0;
-    var sval: string = String(val);
-    var newVal: number = val;
+    let val: number = this.scoreValue ?? 0;
+    let sval: string = String(val);
+    let newVal: number = val;
     switch (key) {
       case '-':
         newVal = -val;
@@ -74,25 +77,50 @@ export class MainComponent implements OnInit {
   }
 
   addScore() {
-    this.currentPlayer.rows.push(this.scoreValue);
-    if (this.currentPlayer.rows.length > this.rowIds.length)
-      this.rowIds.push(this.rowIds.length);
-    this.scoreValue = undefined;
+    if (this.editMode) {
+      this.currentPlayer.rows[this.editIndex] = this.scoreValue;
+      this.sumScore();
+      this.editMode = false;
+      this.scoreValue = undefined;
+      this.findCurrentPlayer();
+    } else {
+      this.currentPlayer.rows.push(this.scoreValue);
+      if (this.currentPlayer.rows.length > this.rowIds.length)
+        this.rowIds.push(this.rowIds.length);
+      this.scoreValue = undefined;
+      this.sumScore();
+      this.findCurrentPlayer();
+    }
+  }
+  findCurrentPlayer() {
+    const plyrs = this.players.filter(i => i.play === true);
+    let maxIdx = this.rowIds[this.rowIds.length - 1];
+
+    this.currentPlayer = null;
+    for (let index = 0; index < plyrs.length; index++) {
+      if ((plyrs[index].rows[maxIdx] ?? -1) === -1)
+        this.currentPlayer = plyrs[index];
+    }
+
+    if (!this.currentPlayer)
+      this.currentPlayer = plyrs[0];
+
+  }
+  sumScore() {
     this.currentPlayer.score = this.currentPlayer.rows.reduce((a: number, b: number) => a + b, 0);
 
-    const plyrs = this.players.filter(i => i.play === true);
-    const idx = plyrs.indexOf(this.currentPlayer);
-    if (idx == plyrs.length - 1)
-      this.currentPlayer = plyrs[0];
-    else
-      this.currentPlayer = plyrs[idx + 1];
-
-
-    console.log('add score', this.scoreValue, this.rowIds, this.players);
   }
 
   getPlayersCount() {
     this.playersCount = this.players.filter(i => i.play === true).length;
+  }
+
+
+  editScore(player: any, index: number) {
+    this.editMode = true;
+    this.currentPlayer = player;
+    this.editIndex = index;
+    this.scoreValue = <number>player.rows[index];
   }
 
 
