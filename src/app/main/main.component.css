@@ -81,7 +81,7 @@
 }
 
 .score-field {
-    width: 100px;
+    width: 100%;
 }
 
 .num {
@@ -92,4 +92,9 @@
 
 .card-content {
     padding-top: 10px;
+}
+
+.scrollable-content {
+    /* height: calc(100vw - 500px); */
+    overflow: auto;
 }

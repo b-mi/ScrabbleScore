@@ -50,7 +50,6 @@ export class MainComponent implements OnInit {
   }
 
   keyClick(key: string) {
-    console.log('keyClick', key);
 
     let val: number = this.scoreValue ?? 0;
     let sval: string = String(val);
@@ -85,8 +84,16 @@ export class MainComponent implements OnInit {
       this.findCurrentPlayer();
     } else {
       this.currentPlayer.rows.push(this.scoreValue);
-      if (this.currentPlayer.rows.length > this.rowIds.length)
+      if (this.currentPlayer.rows.length > this.rowIds.length) {
         this.rowIds.push(this.rowIds.length);
+
+        setTimeout(() => {
+
+          const objDiv = <any>document.getElementById("scrlst");
+          objDiv.scrollTop = objDiv.scrollHeight;
+        });
+
+      }
       this.scoreValue = undefined;
       this.sumScore();
       this.findCurrentPlayer();
