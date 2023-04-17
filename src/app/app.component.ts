@@ -14,7 +14,7 @@ export class AppComponent {
 
   ngOnInit() {
 
-    console.log('swUpdate', this.swUpdate.isEnabled, this.swUpdate.versionUpdates, this.swUpdate);
+    console.log('swUpdate20', this.swUpdate.isEnabled, this.swUpdate.versionUpdates, this.swUpdate);
 
     if (this.swUpdate.isEnabled) {
 
