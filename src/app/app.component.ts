@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
-import { filter, map } from 'rxjs';
+import { filter, interval, map } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -10,31 +10,36 @@ import { filter, map } from 'rxjs';
 export class AppComponent {
   title = 'ScrabbleScore';
 
-  constructor(private swUpdate: SwUpdate) {
+  constructor(private updates: SwUpdate) {
+
+    console.log('UpdateService: Constructor', updates.isEnabled);
+
+    // This shouldn't be necessary but is a try to get the versionUpdates. Doesn't do it either.
+    interval(10000).subscribe(() => {
+      console.log('UpdateService: Checking for Updates')
+      updates.checkForUpdate();
+    });
+
+    updates.versionUpdates.subscribe(async evt => {
+      console.log('UpdateService: versionUpdates', evt);
+      switch (evt.type) {
+        case 'VERSION_DETECTED':
+          console.log(`Downloading new app version: ${evt.version.hash}`);
+          break;
+        case 'VERSION_READY':
+          console.log(`Current app version: ${evt.currentVersion.hash}`);
+          console.log(`New app version ready for use: ${evt.latestVersion.hash}`);
+          await updates.activateUpdate();
+          location.reload();
+          break;
+        case 'VERSION_INSTALLATION_FAILED':
+          console.log(`Failed to install app version '${evt.version.hash}': ${evt.error}`);
+          break;
+      }
+    });
   }
 
   ngOnInit() {
 
-    console.log('swUpdate20', this.swUpdate.isEnabled, this.swUpdate.versionUpdates, this.swUpdate, this.swUpdate.checkForUpdate());
-
-    if (this.swUpdate.isEnabled) {
-
-      // const updatesAvailable = this.swUpdate.versionUpdates.pipe(
-      //   filter((evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY'),
-      //   map(evt => ({
-      //     type: 'UPDATE_AVAILABLE',
-      //     current: evt.currentVersion,
-      //     available: evt.latestVersion,
-      //   })));
-
-
-      this.swUpdate.versionUpdates.subscribe(() => {
-
-        if (confirm("New version available. Load New Version?")) {
-          this.swUpdate.activateUpdate();
-          window.location.reload();
-        }
-      });
-    }
   }
 }
