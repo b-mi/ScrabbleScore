@@ -15,7 +15,7 @@ export class AppComponent {
     console.log('UpdateService: Constructor', updates.isEnabled);
 
     // This shouldn't be necessary but is a try to get the versionUpdates. Doesn't do it either.
-    interval(10000).subscribe(() => {
+    interval(20000).subscribe(() => {
       console.log('UpdateService: Checking for Updates')
       updates.checkForUpdate();
     });
