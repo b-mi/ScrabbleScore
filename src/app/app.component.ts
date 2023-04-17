@@ -14,6 +14,7 @@ export class AppComponent {
 
     console.log('UpdateService: Constructor', updates.isEnabled);
 
+    // cyklicke zistovanie - ale moze byt neziaduce
     // This shouldn't be necessary but is a try to get the versionUpdates. Doesn't do it either.
     // interval(20000).subscribe(() => {
       console.log('UpdateService: Checking for Updates')
