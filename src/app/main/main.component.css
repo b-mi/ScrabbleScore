@@ -40,7 +40,7 @@
 .flex-col {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 5px;
 }
 
 .flex-row {
@@ -92,9 +92,7 @@
 
 
 .card-content {
-    padding-bottom: 10px;
-    padding-left: 3px;
-    padding-right: 3px;
+    padding: 10px 5px;
     border-bottom-width: 1px;
     border-bottom-color: #ccc;
     border-bottom-style: solid;
@@ -115,6 +113,6 @@
 }
 
 .score-log{
-    height: calc(100vh - 470px);
+    height: calc(100vh - 490px);
     overflow-y: scroll;
 }
