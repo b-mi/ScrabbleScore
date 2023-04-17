@@ -1,10 +1,9 @@
 <mat-card class="mat-elevation-z0 card-content">
-    {{appVersion}}
     <mat-card-content class="card-content">
         <div cdkDropList cdkDropListOrientation="horizontal" class="player-list" (cdkDropListDropped)="drop($event)">
             <div class="player-box" *ngFor="let player of players" cdkDrag>
 
-                <mat-chip [highlighted]="player.play" class="chip" [color]="player.play ? 'accent' : 'default'" 
+                <mat-chip [highlighted]="player.play" class="chip" [color]="player.play ? 'accent' : 'default'"
                     (click)="playerClick(player)">
                     <span class="player-name">
                         {{player.name}}
@@ -133,6 +132,11 @@
             </div>
 
         </div>
+    </mat-card-content>
+    <mat-card-content>
+        <small><small>
+                {{appVersion}}
+            </small></small>
     </mat-card-content>
 </mat-card>
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-
+import packageInfo from '../../../package.json';
 
 @Component({
   selector: 'app-main',
@@ -8,7 +8,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
-  appVersion: string = "1.23";
+  appVersion: string = packageInfo.version;
 
   players: any[] = [];
   currentPlayer: any;
