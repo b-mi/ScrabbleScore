@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1681735661008,
+  "timestamp": 1681737262143,
   "index": "/ScrabbleScore/index.html",
   "assetGroups": [
     {
@@ -13,7 +13,7 @@
       "urls": [
         "/ScrabbleScore/favicon.ico",
         "/ScrabbleScore/index.html",
-        "/ScrabbleScore/main.92be57b4a5c7b778.js",
+        "/ScrabbleScore/main.c6110816f1a84533.js",
         "/ScrabbleScore/manifest.webmanifest",
         "/ScrabbleScore/polyfills.cf145a96171357c4.js",
         "/ScrabbleScore/runtime.c96092750c117b27.js",
@@ -52,8 +52,8 @@
     "/ScrabbleScore/assets/icons/icon-72x72.png": "8795c7e44d0ee00bbd2ee1e4f853fd13a8123ed9",
     "/ScrabbleScore/assets/icons/icon-96x96.png": "de47ae50e1b21fe5b84d5e6d41f06bb3dab29e50",
     "/ScrabbleScore/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
-    "/ScrabbleScore/index.html": "89963f4ed81844c7bdee2a345a13b2949a412c4a",
-    "/ScrabbleScore/main.92be57b4a5c7b778.js": "ac6b6ecc6d77d4d6471a87ebede8ff293153686c",
+    "/ScrabbleScore/index.html": "9462ea0d2f20d2599a4df7329e56076173fbd1a2",
+    "/ScrabbleScore/main.c6110816f1a84533.js": "d3ad94d233f5e4b984f1b4a19d5f652165caaf04",
     "/ScrabbleScore/manifest.webmanifest": "38f1273df8f89ddb08f59793b20c47cf43543137",
     "/ScrabbleScore/polyfills.cf145a96171357c4.js": "7c1b2c3a170da67f34746b319cc407f0bb2678a7",
     "/ScrabbleScore/runtime.c96092750c117b27.js": "468a19ea016e48b05dfc993711c9483cc939d3b3",
