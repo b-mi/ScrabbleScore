@@ -52,8 +52,10 @@ export class MainComponent implements OnInit {
   }
 
 
-  playerClick2($event: MatChipSelectionChange, player: any) {
-    player.play = $event.selected;
+  playerClick(player: any) {
+    console.log('pc', player);
+    
+    player.play = player.play === true ? false : true;
     this.getPlayersCount();
   }
 
