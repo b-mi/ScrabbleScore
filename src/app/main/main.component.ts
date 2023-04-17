@@ -113,6 +113,11 @@ export class MainComponent implements OnInit {
     const plyrs = this.players.filter(i => i.play === true);
     let maxIdx = this.rowIds[this.rowIds.length - 1];
 
+    if( maxIdx === undefined ){
+      this.currentPlayer = plyrs[0];
+      return;
+    }
+
     this.currentPlayer = null;
     for (let index = 0; index < plyrs.length; index++) {
       if ((plyrs[index].rows[maxIdx] ?? -1) === -1)
