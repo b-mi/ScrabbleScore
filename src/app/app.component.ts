@@ -14,15 +14,17 @@ export class AppComponent {
 
   ngOnInit() {
 
-      if (this.swUpdate.isEnabled) {
+    console.log('swUpdate', this.swUpdate.isEnabled, this.swUpdate.versionUpdates, this.swUpdate);
 
-          this.swUpdate.versionUpdates.subscribe(() => {
+    if (this.swUpdate.isEnabled) {
 
-              if(confirm("New version available. Load New Version?")) {
+      this.swUpdate.versionUpdates.subscribe(() => {
 
-                  window.location.reload();
-              }
-          });
-      }        
+        if (confirm("New version available. Load New Version?")) {
+
+          window.location.reload();
+        }
+      });
+    }
   }
 }
