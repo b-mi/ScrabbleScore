@@ -2,15 +2,42 @@
     <mat-card-content>
         <div cdkDropList cdkDropListOrientation="horizontal" class="player-list" (cdkDropListDropped)="drop($event)">
             <div class="player-box" *ngFor="let player of players" cdkDrag>
-                <button mat-flat-button [color]="player.play ? 'accent' : 'default'"
-                    (click)="playerClick(player)">{{player.name}}</button>
+
+                <mat-chip-option color="accent" [selected]="player.play"
+                    (selectionChange)="playerClick2($event, player)">
+                    <span class="player-name">
+                        {{player.name}}
+                    </span>
+
+                    <button matChipRemove [matMenuTriggerFor]="menu">
+                        <mat-icon aria-label="label">more_vert</mat-icon>
+                    </button>
+
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item (click)="renamePlayer(player)">Premenovať</button>
+                        <button mat-menu-item>Reset</button>
+                    </mat-menu>
+
+                    <div matChipRemove cdkDragHandle>
+                        <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z">
+                            </path>
+                            <path d="M0 0h24v24H0z" fill="none"></path>
+                        </svg>
+                    </div>
+                </mat-chip-option>
+
+                <mat-divider></mat-divider>
                 <div class="score">
                     {{player.score}}
                 </div>
+
+
             </div>
         </div>
     </mat-card-content>
-    <mat-card-content>
+    <mat-card-content *ngIf="!isEditingPlayerName">
         <div class="add-score score">
 
 
@@ -22,7 +49,7 @@
 
         </div>
     </mat-card-content>
-    <mat-card-content class="card-content">
+    <mat-card-content class="card-content" *ngIf="!isEditingPlayerName">
         <div class="flex-col">
 
             <div class="flex-row">
@@ -82,13 +109,29 @@
 
         </div>
     </mat-card-content>
+
+    <mat-card-content *ngIf="isEditingPlayerName" class="card-content">
+        <div class="flex-row">
+
+            <mat-form-field appearance="fill" class="score-field">
+                <mat-label>Meno hráča</mat-label>
+                <input matInput [(ngModel)]="playerName">
+            </mat-form-field>
+
+            <button mat-fab (click)="savePlayerName()">
+                <mat-icon aria-label="label">save</mat-icon>
+            </button>
+        </div>
+    </mat-card-content>
+
     <mat-card-content id="scrlst" class="card-content" style="height: 150px;overflow-y: scroll;">
-        <div class="flex-col scrollable-content" style="padding: 5px;border-color: lightgray;border-width: 1px;border-style: solid;">
+        <div class="flex-col scrollable-content"
+            style="padding: 5px;border-bottom-color: lightgray;border-bottom-width: 1px;border-bottom-style: solid;">
 
 
             <div class="flex-row" *ngFor="let id of rowIds; let i = index">
-                <button mat-stroked-button *ngFor="let player of players" [disabled]="player.rows[i] === undefined"
-                    (click)="editScore(player, i)">
+                <button mat-stroked-button class="player-box" *ngFor="let player of players"
+                    [disabled]="player.rows[i] === undefined" (click)="editScore(player, i)">
                     <span class="num">
                         {{player.rows[i] ?? '-'}}
 
@@ -99,3 +142,8 @@
         </div>
     </mat-card-content>
 </mat-card>
+
+
+<!-- <pre>
+    {{players | json}}
+</pre> -->

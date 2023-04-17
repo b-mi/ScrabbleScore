@@ -9,6 +9,7 @@ import { MatButtonModule as MatButtonModule } from '@angular/material/button';
 import { MatSelectModule as MatSelectModule } from '@angular/material/select';
 import { MatRadioModule as MatRadioModule } from '@angular/material/radio';
 import { MatCardModule as MatCardModule } from '@angular/material/card';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { MatTableModule as MatTableModule } from '@angular/material/table';
@@ -23,6 +24,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule as MatListModule } from '@angular/material/list';
+import { MatChipsModule } from '@angular/material/chips';
 import { MainComponent } from './main/main.component';
 
 @NgModule({
@@ -53,6 +55,8 @@ import { MainComponent } from './main/main.component';
     MatButtonToggleModule,
     MatDividerModule,
     MatListModule,
+    MatSlideToggleModule,
+    MatChipsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { MatChipSelectionChange } from '@angular/material/chips';
 
 @Component({
   selector: 'app-main',
@@ -7,6 +8,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
+
 
   players: any[] = [];
   currentPlayer: any;
@@ -18,20 +20,25 @@ export class MainComponent implements OnInit {
   editMode: boolean = false;
   editIndex: number = 0;
 
+  isEditingPlayerName: boolean = false;
+  playerName: string = '';
+  editedPlayer: any;
+
 
   constructor() {
 
     this.players = [];
-    this.addPlayer('Vierka', true);
-    this.addPlayer('Bob', true);
-    this.addPlayer('Lukáš', false);
-    this.addPlayer('Hráč 4', false);
+    this.addPlayer('p1', 'Hráč 1', true);
+    this.addPlayer('p2', 'Hráč 2', true);
+    this.addPlayer('p3', 'Hráč 3', false);
+    this.addPlayer('p4', 'Hráč 4', false);
 
     this.currentPlayer = this.players[0];
 
   }
-  addPlayer(pname: string, play: boolean) {
-    const data = { name: pname, play: play, rows: [], score: 0 };
+  addPlayer(id: string, pname: string, play: boolean) {
+    let xname = localStorage.getItem(id) ?? pname;
+    const data = { id: id, name: xname, play: play, rows: [], score: 0 };
     this.players.push(data);
   }
 
@@ -44,8 +51,9 @@ export class MainComponent implements OnInit {
     this.findCurrentPlayer();
   }
 
-  playerClick(player: any) {
-    player.play = player.play === true ? false : true;
+
+  playerClick2($event: MatChipSelectionChange, player: any) {
+    player.play = $event.selected;
     this.getPlayersCount();
   }
 
@@ -128,6 +136,22 @@ export class MainComponent implements OnInit {
     this.currentPlayer = player;
     this.editIndex = index;
     this.scoreValue = <number>player.rows[index];
+  }
+
+  renamePlayer(player: any) {
+    this.playerName = player.name;
+    this.editedPlayer = player;
+    this.isEditingPlayerName = true;
+    console.log('rena', player);
+
+  }
+
+  savePlayerName() {
+    this.editedPlayer.name = this.playerName;
+    localStorage.setItem(this.editedPlayer.id, this.playerName);
+    this.isEditingPlayerName = false;
+    this.playerName = '';
+    this.editedPlayer = undefined;
   }
 
 
