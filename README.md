@@ -1,6 +1,6 @@
 # ScrabbleScore
 Score Counter for Scrabble
-Aplikácia s sčítavanie skóre v scrabble
+Aplikácia s sčítavanie skóre v scrabble - v mobile, namiesto papiera  a excelu
 Vlastnosti
 - zmena poradia hráčov (drag/drop)
 - výber počtu hráčov
