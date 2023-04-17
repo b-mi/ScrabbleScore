@@ -1,4 +1,5 @@
 <mat-card class="mat-elevation-z0 card-content">
+    {{appVersion}}
     <mat-card-content class="card-content">
         <div cdkDropList cdkDropListOrientation="horizontal" class="player-list" (cdkDropListDropped)="drop($event)">
             <div class="player-box" *ngFor="let player of players" cdkDrag>

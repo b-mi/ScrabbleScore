@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { MatChipSelectionChange } from '@angular/material/chips';
+
 
 @Component({
   selector: 'app-main',
@@ -8,7 +8,7 @@ import { MatChipSelectionChange } from '@angular/material/chips';
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
-
+  appVersion: string = "1.23";
 
   players: any[] = [];
   currentPlayer: any;
@@ -26,7 +26,6 @@ export class MainComponent implements OnInit {
 
 
   constructor() {
-
     this.players = [];
     this.addPlayer('p1', 'Hráč 1', true);
     this.addPlayer('p2', 'Hráč 2', true);
