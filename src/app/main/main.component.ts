@@ -19,10 +19,7 @@ export class MainComponent implements OnInit {
   rowIds: number[] = [];
   editMode: boolean = false;
   editIndex: number = 0;
-
-  isEditingPlayerName: boolean = false;
-  playerName: string = '';
-  editedPlayer: any;
+  isEditingPlayers: boolean = false;
 
 
   constructor() {
@@ -52,8 +49,7 @@ export class MainComponent implements OnInit {
 
 
   playerClick(player: any) {
-    console.log('pc', player);
-    
+
     player.play = player.play === true ? false : true;
     this.getPlayersCount();
   }
@@ -112,7 +108,7 @@ export class MainComponent implements OnInit {
     const plyrs = this.players.filter(i => i.play === true);
     let maxIdx = this.rowIds[this.rowIds.length - 1];
 
-    if( maxIdx === undefined ){
+    if (maxIdx === undefined) {
       this.currentPlayer = plyrs[0];
       return;
     }
@@ -144,20 +140,24 @@ export class MainComponent implements OnInit {
     this.scoreValue = <number>player.rows[index];
   }
 
-  renamePlayer(player: any) {
-    this.playerName = player.name;
-    this.editedPlayer = player;
-    this.isEditingPlayerName = true;
-    console.log('rena', player);
-
+  renamePlayers() {
+    this.isEditingPlayers = true;
   }
 
   savePlayerName() {
-    this.editedPlayer.name = this.playerName;
-    localStorage.setItem(this.editedPlayer.id, this.playerName);
-    this.isEditingPlayerName = false;
-    this.playerName = '';
-    this.editedPlayer = undefined;
+    this.players.forEach(player => {
+      localStorage.setItem(player.id, player.name);
+    });
+    this.isEditingPlayers = false;
+  }
+
+  reset() {
+    this.rowIds = [];
+    this.players.forEach(player => {
+      player.rows = [];
+      player.score = 0;
+    });
+    this.findCurrentPlayer();
   }
 
 

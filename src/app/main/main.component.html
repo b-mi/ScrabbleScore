@@ -8,19 +8,7 @@
                     <span class="player-name">
                         {{player.name}}
                     </span>
-
-                    <button matChipRemove [matMenuTriggerFor]="menu">
-                        <mat-icon aria-label="label">more_vert</mat-icon>
-                    </button>
-
-                    <mat-menu #menu="matMenu">
-                        <button mat-menu-item (click)="renamePlayer(player)">Premenovať</button>
-                        <button mat-menu-item>Reset</button>
-                    </mat-menu>
-
                 </mat-chip>
-
-                <mat-divider></mat-divider>
                 <div class="score">
                     {{player.score}}
                 </div>
@@ -29,7 +17,7 @@
             </div>
         </div>
     </mat-card-content>
-    <mat-card-content *ngIf="!isEditingPlayerName">
+    <mat-card-content *ngIf="!isEditingPlayers">
         <div class="add-score score">
 
 
@@ -41,7 +29,7 @@
 
         </div>
     </mat-card-content>
-    <mat-card-content class="card-content" *ngIf="!isEditingPlayerName">
+    <mat-card-content class="card-content" *ngIf="!isEditingPlayers">
         <div class="flex-col">
 
             <div class="flex-row">
@@ -102,23 +90,8 @@
         </div>
     </mat-card-content>
 
-    <mat-card-content *ngIf="isEditingPlayerName" class="card-content">
-        <div class="flex-row">
-
-            <mat-form-field appearance="fill" class="score-field">
-                <mat-label>Meno hráča</mat-label>
-                <input matInput [(ngModel)]="playerName">
-            </mat-form-field>
-
-            <button mat-fab (click)="savePlayerName()">
-                <mat-icon aria-label="label">save</mat-icon>
-            </button>
-        </div>
-    </mat-card-content>
-
-    <mat-card-content id="scrlst" class="card-content" style="height: 150px;overflow-y: scroll;">
-        <div class="flex-col scrollable-content"
-            style="padding: 5px;border-bottom-color: lightgray;border-bottom-width: 1px;border-bottom-style: solid;">
+    <mat-card-content *ngIf="!isEditingPlayers" id="scrlst" class="card-content score-log" >
+        <div class="flex-col scrollable-content">
 
 
             <div class="flex-row" *ngFor="let id of rowIds; let i = index">
@@ -134,9 +107,38 @@
         </div>
     </mat-card-content>
     <mat-card-content>
-        <small><small>
-                {{appVersion}}
-            </small></small>
+        <div class="flex-row">
+
+            <div>
+                <small><small>Scrabble Score v. {{appVersion}}</small></small>
+            </div>
+
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon aria-label="label">more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="renamePlayers()">Premenovať hráčov</button>
+                <mat-divider></mat-divider>
+                <button mat-menu-item (click)="reset()">Reset</button>
+            </mat-menu>
+
+        </div>
+    </mat-card-content>
+
+    <mat-card-content *ngIf="isEditingPlayers" class="flex-col">
+
+        <div *ngFor="let player of players">
+            <mat-form-field appearance="fill" class="score-field">
+                <mat-label>Meno hráča</mat-label>
+                <input matInput [(ngModel)]="player.name">
+            </mat-form-field>
+        </div>
+        <div>
+            <button mat-fab (click)="savePlayerName()">
+                <mat-icon aria-label="label">save</mat-icon>
+            </button>
+        </div>
+
     </mat-card-content>
 </mat-card>
 

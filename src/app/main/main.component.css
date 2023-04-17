@@ -1,7 +1,7 @@
 .player-list {
     width: 100%;
     max-width: 100%;
-    border: solid 1px #ccc;
+    /* border: solid 1px #ccc; */
     min-height: 40px;
     display: flex;
     flex-direction: row;
@@ -92,9 +92,13 @@
 
 
 .card-content {
-    padding-top: 10px;
+    padding-bottom: 10px;
     padding-left: 3px;
     padding-right: 3px;
+    border-bottom-width: 1px;
+    border-bottom-color: #ccc;
+    border-bottom-style: solid;
+
 }
 
 .scrollable-content {
@@ -108,4 +112,9 @@
 
 .chip {
     margin-right: 1px;
+}
+
+.score-log{
+    height: calc(100vh - 470px);
+    overflow-y: scroll;
 }
