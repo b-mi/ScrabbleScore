@@ -113,7 +113,7 @@
 }
 
 .score-log {
-    height: calc(100vh - 490px);
+    height: calc(100vh - 520px);
     overflow-y: scroll;
 }
 

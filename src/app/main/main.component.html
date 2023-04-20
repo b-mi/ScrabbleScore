@@ -16,7 +16,7 @@
             </div>
         </div>
     </mat-card-content>
-    <mat-card-content *ngIf="!isEditingPlayers">
+    <mat-card-content *ngIf="!isEditingPlayers" style="margin-right: 15px;">
 
         <div class="flex-col">
             <div class="player-line" [ngClass]="currentPlayer.id + '-bord'">
@@ -150,6 +150,6 @@
 </mat-card>
 
 
-<pre>
+<!-- <pre>
     {{players | json}}
-</pre>
+</pre> -->
