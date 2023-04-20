@@ -12,17 +12,20 @@ export class AppComponent {
 
   constructor(private updates: SwUpdate) {
 
+    this.checkUpdate(updates);
+  }
+
+  private checkUpdate(updates: SwUpdate) {
     console.log('UpdateService: Constructor', updates.isEnabled);
 
     if (updates.isEnabled) {
       // cyklicke zistovanie - ale moze byt neziaduce d
       // This shouldn't be necessary but is a try to get the versionUpdates. Doesn't do it either.
       // interval(20000).subscribe(() => {
-      console.log('UpdateService: Checking for Updates')
+      console.log('UpdateService: Checking for Updates');
       updates.checkForUpdate();
       // });
-
-      updates.versionUpdates.subscribe(async evt => {
+      updates.versionUpdates.subscribe(async (evt) => {
         console.log('UpdateService: versionUpdates', evt);
         switch (evt.type) {
           case 'VERSION_DETECTED':
