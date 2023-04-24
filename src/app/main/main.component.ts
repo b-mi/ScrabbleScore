@@ -21,7 +21,6 @@ export class MainComponent implements OnInit {
   editIndex: number = 0;
   isEditingPlayers: boolean = false;
 
-
   constructor() {
     this.players = [];
     this.addPlayer('p1', 'Hráč 1', true);
@@ -89,6 +88,8 @@ export class MainComponent implements OnInit {
       this.findCurrentPlayer();
     } else {
       this.currentPlayer.rows.push(this.scoreValue);
+      this.playSound(<number>this.scoreValue);
+
       if (this.currentPlayer.rows.length > this.rowIds.length) {
         this.rowIds.push(this.rowIds.length);
 
@@ -138,6 +139,7 @@ export class MainComponent implements OnInit {
     this.currentPlayer = player;
     this.editIndex = index;
     this.scoreValue = <number>player.rows[index];
+    this.playSound(this.scoreValue);
   }
 
   renamePlayers() {
@@ -159,6 +161,25 @@ export class MainComponent implements OnInit {
     });
     this.findCurrentPlayer();
   }
+
+  playSound(points: number) {
+
+    const audioContext = new AudioContext();
+
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    oscillator.connect(gainNode); //.connect(merger, 0, 0);
+    gainNode.connect(audioContext.destination);
+    
+    gainNode.gain.value = 0.8;
+    oscillator.frequency.value = 40 + points * 20;
+    oscillator.type = 'sawtooth';
+    oscillator.start(0);
+   
+    oscillator.stop(0.2);
+
+  }
+
 
 
 
