@@ -82,6 +82,7 @@ export class MainComponent implements OnInit {
   addScore() {
     if (this.editMode) {
       this.currentPlayer.rows[this.editIndex] = this.scoreValue;
+      this.playSound(<number>this.scoreValue);
       this.sumScore();
       this.editMode = false;
       this.scoreValue = undefined;
@@ -139,7 +140,6 @@ export class MainComponent implements OnInit {
     this.currentPlayer = player;
     this.editIndex = index;
     this.scoreValue = <number>player.rows[index];
-    this.playSound(this.scoreValue);
   }
 
   renamePlayers() {
