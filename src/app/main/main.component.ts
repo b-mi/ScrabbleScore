@@ -171,7 +171,7 @@ export class MainComponent implements OnInit {
     oscillator.connect(gainNode); //.connect(merger, 0, 0);
     gainNode.connect(audioContext.destination);
     
-    gainNode.gain.value = 0.5;
+    gainNode.gain.value = 0.2;
     oscillator.frequency.value = 40 + points * 20;
     oscillator.type = 'sawtooth';
     oscillator.start(0);
