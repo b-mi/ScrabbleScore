@@ -20,7 +20,6 @@ export class MainComponent implements OnInit {
   editMode: boolean = false;
   editIndex: number = 0;
   isEditingPlayers: boolean = false;
-  audio: any;
 
   constructor() {
     this.players = [];
@@ -31,9 +30,6 @@ export class MainComponent implements OnInit {
 
     this.currentPlayer = this.players[0];
     this.deserialize();
-    this.audio = new Audio();
-    this.audio.src = "assets/press.mp3";
-    this.audio.load();
 
   }
   addPlayer(id: string, pname: string, play: boolean) {
