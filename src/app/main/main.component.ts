@@ -20,6 +20,7 @@ export class MainComponent implements OnInit {
   editMode: boolean = false;
   editIndex: number = 0;
   isEditingPlayers: boolean = false;
+  audio: any;
 
   constructor() {
     this.players = [];
@@ -29,6 +30,10 @@ export class MainComponent implements OnInit {
     this.addPlayer('p4', 'Hráč 4', false);
 
     this.currentPlayer = this.players[0];
+    this.deserialize();
+    this.audio = new Audio();
+    this.audio.src = "assets/press.mp3";
+    this.audio.load();
 
   }
   addPlayer(id: string, pname: string, play: boolean) {
@@ -39,6 +44,7 @@ export class MainComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPlayersCount();
+    this.findCurrentPlayer();
   }
 
   drop(event: CdkDragDrop<string[]>) {
@@ -77,6 +83,7 @@ export class MainComponent implements OnInit {
         break;
     }
     this.scoreValue = newVal;
+    this.playPressSnd();
   }
 
   addScore() {
@@ -105,7 +112,25 @@ export class MainComponent implements OnInit {
       this.sumScore();
       this.findCurrentPlayer();
     }
+    this.serialize();
   }
+  serialize() {
+    localStorage.setItem('scrb', JSON.stringify(this.players))
+    localStorage.setItem('scrbr', JSON.stringify(this.rowIds))
+  }
+
+  deserialize() {
+    const scrb = localStorage.getItem('scrb');
+    const scrbr = localStorage.getItem('scrbr');
+    if (scrb) {
+      this.players = JSON.parse(scrb);
+    }
+    if (scrbr) {
+      this.rowIds = JSON.parse(scrbr);
+    }
+  }
+
+
   findCurrentPlayer() {
     const plyrs = this.players.filter(i => i.play === true);
     let maxIdx = this.rowIds[this.rowIds.length - 1];
@@ -159,6 +184,7 @@ export class MainComponent implements OnInit {
       player.rows = [];
       player.score = 0;
     });
+    this.serialize();
     this.findCurrentPlayer();
   }
 
@@ -170,14 +196,30 @@ export class MainComponent implements OnInit {
     const gainNode = audioContext.createGain();
     oscillator.connect(gainNode); //.connect(merger, 0, 0);
     gainNode.connect(audioContext.destination);
-    
+
     gainNode.gain.value = 0.2;
     oscillator.frequency.value = 40 + points * 50;
     oscillator.type = 'sawtooth';
     oscillator.start(0);
-   
+
     oscillator.stop(0.2);
 
+  }
+
+  playPressSnd(){
+    const audioContext = new AudioContext();
+
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    oscillator.connect(gainNode); //.connect(merger, 0, 0);
+    gainNode.connect(audioContext.destination);
+
+    gainNode.gain.value = 0.2;
+    oscillator.frequency.value = 2000;
+    oscillator.type = 'square';
+    oscillator.start(0);
+
+    oscillator.stop(0.01);
   }
 
 
