@@ -119,11 +119,11 @@
 
 
 .p1-color {
-    background-color: aqua !important;
+    background-color: hotpink !important;
 }
 
 .p2-color {
-    background-color: chartreuse !important;
+    background-color: aqua !important;
 }
 
 .p3-color {
@@ -131,16 +131,16 @@
 }
 
 .p4-color {
-    background-color: pink !important;
+    background-color: chartreuse !important;
 }
 
 
 .p1-bord {
-    border-color: aqua;
+    border-color: hotpink;
 }
 
 .p2-bord {
-    border-color: chartreuse
+    border-color: aqua
 }
 
 .p3-bord {
@@ -148,7 +148,7 @@
 }
 
 .p4-bord {
-    border-color: pink;
+    border-color: chartreuse;
 }
 
 .p-disabled {
@@ -158,6 +158,6 @@
 
 .player-line {
     width: 100%;
-    border-style: solid;
-    border-width: 10px;
+    border-left-style: solid;
+    border-left-width: 10px;
 }
