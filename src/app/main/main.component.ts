@@ -20,6 +20,7 @@ export class MainComponent implements OnInit {
   editMode: boolean = false;
   editIndex: number = 0;
   isEditingPlayers: boolean = false;
+  maxScore: number = 0;
 
   constructor() {
     this.players = [];
@@ -116,13 +117,14 @@ export class MainComponent implements OnInit {
   }
 
   deserialize() {
-    const scrb = localStorage.getItem('scrb');
-    const scrbr = localStorage.getItem('scrbr');
+    const scrb = localStorage.getItem('scrb'); // players
+    const scrbr = localStorage.getItem('scrbr'); // score
     if (scrb) {
       this.players = JSON.parse(scrb);
     }
     if (scrbr) {
       this.rowIds = JSON.parse(scrbr);
+      this.calcMaxScore();
     }
   }
 
@@ -148,7 +150,12 @@ export class MainComponent implements OnInit {
   }
   sumScore() {
     this.currentPlayer.score = this.currentPlayer.rows.reduce((a: number, b: number) => a + b, 0);
+    this.calcMaxScore();
+  }
 
+  private calcMaxScore() {
+    this.maxScore = 0;
+    this.players.filter(p => p.play).forEach(p => this.maxScore = Math.max(this.maxScore, p.score));
   }
 
   getPlayersCount() {
@@ -176,6 +183,7 @@ export class MainComponent implements OnInit {
 
   reset() {
     this.rowIds = [];
+    this.maxScore = 0;
     this.players.forEach(player => {
       player.rows = [];
       player.score = 0;

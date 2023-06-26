@@ -1,19 +1,22 @@
 <mat-card class="mat-elevation-z0 card-content">
     <mat-card-content class="card-content">
         <div cdkDropList cdkDropListOrientation="horizontal" class="player-list" (cdkDropListDropped)="drop($event)">
-            <div class="player-box" *ngFor="let player of players" cdkDrag>
-                <mat-chip class="chip" [ngClass]="player.play === true ? player.id + '-color' : 'p-disabled'"
-                    (click)="playerClick(player)">
-                    <span class="player-name">
-                        {{player.name}}
-                    </span>
-                </mat-chip>
-                <div class="score">
-                    {{player.score}}
-                </div>
+            <ng-container *ngFor="let player of players">
+                <ng-container *ngIf="player.play">
 
+                    <div class="player-box" cdkDrag>
+                        <mat-chip class="chip" [ngClass]="player.id + '-color'" (click)="playerClick(player)">
+                            <span class="player-name">
+                                {{player.name}}
+                            </span>
+                        </mat-chip>
+                        <div class="score" [ngClass]="{'score-higher': player.score === maxScore}">
+                            {{player.score}}
+                        </div>
+                    </div>
+                </ng-container>
+            </ng-container>
 
-            </div>
         </div>
     </mat-card-content>
     <mat-card-content *ngIf="!isEditingPlayers" style="margin-right: 15px;">
@@ -124,6 +127,7 @@
             </button>
             <mat-menu #menu="matMenu">
                 <a mat-menu-item href="https://slovnik.juls.savba.sk/" target="_blank">JULS</a>
+                <a mat-menu-item href="https://google.sk/" target="_blank">Google</a>
                 <button mat-menu-item (click)="renamePlayers()">Premenovať hráčov</button>
                 <mat-divider></mat-divider>
                 <button mat-menu-item (click)="reset()">Reset</button>
@@ -135,10 +139,16 @@
     <mat-card-content *ngIf="isEditingPlayers" class="flex-col">
 
         <div *ngFor="let player of players">
-            <mat-form-field appearance="fill" class="score-field">
-                <mat-label>Meno hráča</mat-label>
-                <input matInput [(ngModel)]="player.name">
-            </mat-form-field>
+            <div class="flex-row">
+
+                <mat-form-field appearance="fill" class="score-field">
+                    <mat-label>Meno hráča</mat-label>
+                    <input matInput [(ngModel)]="player.name">
+                </mat-form-field>
+
+                <mat-checkbox [(ngModel)]="player.play"></mat-checkbox>
+
+            </div>
         </div>
         <div>
             <button mat-fab (click)="savePlayerName()">
@@ -151,5 +161,6 @@
 
 
 <!-- <pre>
-    {{players | json}}
+    {{maxScore}}
 </pre> -->
+<!-- {{players | json}} -->

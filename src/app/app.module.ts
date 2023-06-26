@@ -25,6 +25,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule as MatListModule } from '@angular/material/list';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MainComponent } from './main/main.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
@@ -53,6 +54,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     LayoutModule,
     DragDropModule,
     MatToolbarModule,
+    MatCheckboxModule,
     MatButtonToggleModule,
     MatDividerModule,
     MatListModule,
