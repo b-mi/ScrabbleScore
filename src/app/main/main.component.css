@@ -109,7 +109,7 @@
 }
 
 .player-name {
-    font-size: 26px;
+    font-size: 20px;
 }
 
 .chip {
@@ -123,11 +123,11 @@
 
 
 .p1-color {
-    background-color: hotpink !important;
+    background-color: lightpink !important;
 }
 
 .p2-color {
-    background-color: aqua !important;
+    background-color: gainsboro !important;
 }
 
 .p3-color {
