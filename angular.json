@@ -72,10 +72,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "ScrabbleScore:build:production"
+              "buildTarget": "ScrabbleScore:build:production"
             },
             "development": {
-              "browserTarget": "ScrabbleScore:build:development"
+              "buildTarget": "ScrabbleScore:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -83,7 +83,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ScrabbleScore:build"
+            "buildTarget": "ScrabbleScore:build"
           }
         },
         "test": {
