@@ -13,4 +13,4 @@ Vlastnosti
 - [voľne dostupné](https://b-mi.github.io/ScrabbleScore/)
 - Licencia MIT
 
-![](scrb.jpg)
+![](scrb.png)
