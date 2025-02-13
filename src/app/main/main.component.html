@@ -1,28 +1,29 @@
 <mat-card class="mat-elevation-z0 card-content">
     <mat-card-content class="card-content">
+
         <div cdkDropList cdkDropListOrientation="horizontal" class="player-list" (cdkDropListDropped)="drop($event)">
             <ng-container *ngFor="let player of players">
                 <ng-container *ngIf="player.play">
 
-                    <div class="player-box" cdkDrag>
-                        <mat-chip class="chip" [ngClass]="player.id + '-color'" (click)="playerClick(player)">
+                    <!-- <mat-chip-listbox> -->
+                        <div class="player-box" cdkDrag>
+                            <mat-chip-option class="chip no-click" color="warn" [selected]="player.name === currentPlayer.name" (click)="playerClick(player)">
 
-                            <span class="player-name">
-                                {{player.name}}
-                            </span>
-                        </mat-chip>
-                        <div class="flex-col">
-                            <div class="score" [ngClass]="{'score-higher': player.score === maxScore}">
-                                @if(player.name === currentPlayer.name){
-                                    <span
-                                    class="highlight highlight-effect">{{player.score}}</span>                                    
-                                } @else {
-                                    <span class="highlight"
-                                    >{{player.score}}</span>
-                                }
+                                <span class="player-name">
+                                    {{player.name}}
+                                </span>
+                            </mat-chip-option>
+                            <div class="flex-col">
+                                <div class="score" [ngClass]="{'score-higher': player.score === maxScore}">
+                                    @if(player.name === currentPlayer.name){
+                                    <span class="highlight highlight-effect">{{player.score}}</span>
+                                    } @else {
+                                    <span class="highlight">{{player.score}}</span>
+                                    }
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    <!-- </mat-chip-listbox> -->
                 </ng-container>
             </ng-container>
 
@@ -33,7 +34,7 @@
     <mat-card-content *ngIf="!isEditingPlayers" style="margin-right: 15px;">
 
         <div class="flex-col">
-            <div class="player-line" [ngClass]="currentPlayer.id + '-bord'">
+            <div>
                 <div class="add-score score">
 
 

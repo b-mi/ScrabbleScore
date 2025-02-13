@@ -3,7 +3,7 @@ import { CdkDragDrop, moveItemInArray, CdkDropList, CdkDrag } from '@angular/cdk
 import packageInfo from '../../../package.json';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { NgFor, NgIf, NgClass } from '@angular/common';
-import { MatChip } from '@angular/material/chips';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -18,7 +18,11 @@ import { MatCheckbox } from '@angular/material/checkbox';
     templateUrl: './main.component.html',
     styleUrls: ['./main.component.css'],
     standalone: true,
-    imports: [MatCard, MatCardContent, CdkDropList, NgFor, NgIf, CdkDrag, MatChip, NgClass, MatFormField, MatLabel, MatInput, ReactiveFormsModule, FormsModule, MatFabButton, MatIcon, MatButton, MatIconButton, MatMenuTrigger, MatMenu, MatMenuItem, MatDivider, MatCheckbox]
+    imports: [MatCard, MatCardContent, CdkDropList, NgFor, NgIf, CdkDrag, 
+      MatChipsModule, NgClass, MatFormField, MatLabel, MatInput, 
+      ReactiveFormsModule, FormsModule, MatFabButton, MatIcon, MatButton, 
+      MatIconButton, MatMenuTrigger, MatMenu, MatMenuItem, MatDivider, 
+      MatCheckbox]
 })
 export class MainComponent implements OnInit {
   appVersion: string = packageInfo.version;
@@ -65,7 +69,7 @@ export class MainComponent implements OnInit {
 
   playerClick(player: any) {
 
-    player.play = player.play === true ? false : true;
+    // player.play = player.play === true ? false : true;
     this.getPlayersCount();
   }
 
