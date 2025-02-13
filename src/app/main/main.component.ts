@@ -97,7 +97,7 @@ export class MainComponent implements OnInit {
         break;
     }
     this.scoreValue = newVal;
-    this.playPressSnd();
+    // this.playPressSnd();
   }
 
   addScore() {
