@@ -13,8 +13,8 @@
                         </mat-chip>
                         <div class="flex-col">
                             <div class="score" [ngClass]="{'score-higher': player.score === maxScore}">
-                                
-                                <div *ngIf="player.name === currentPlayer.name" class="highlight">{{player.score}}</div>
+                                <div *ngIf="player.name === currentPlayer.name"><span
+                                        class="highlight">{{player.score}}</span> </div>
                             </div>
                         </div>
                     </div>
@@ -24,7 +24,7 @@
         </div>
 
     </mat-card-content>
-    
+
     <mat-card-content *ngIf="!isEditingPlayers" style="margin-right: 15px;">
 
         <div class="flex-col">

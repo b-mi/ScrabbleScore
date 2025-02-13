@@ -164,25 +164,6 @@
 }
 
 
-@keyframes orbit {
-    0% { transform: rotate(0deg) translateX(50px) rotate(0deg); }
-    100% { transform: rotate(360deg) translateX(50px) rotate(-360deg); }
-}
-
-@keyframes expandCircle {
-    0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.5); opacity: 0.5; }
-    100% { transform: scale(1); opacity: 1; }
-}
-
-.line {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: lightgray;
-    animation: expandCircle 2s infinite;
-}
-
 
 .highlight {
     position: relative;
@@ -195,22 +176,30 @@
 .highlight::after {
     content: "";
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 50%;
+    left: 50%;
     width: 100%;
-    height: 100%;
-    background: rgba(255, 200, 0, 0.4); /* Farba prekrytia */
+    aspect-ratio: 1 / 1; /* Vždy udrží kruhový tvar */
+    background: rgba(255, 200, 0, 0.4);
     border-radius: 50%;
+    transform: translate(-50%, -50%);
+    clip-path: circle(0% at 50% 50%);
     animation: pulse 2s infinite;
-    z-index: 1; /* Zabezpečí, že bude nad textom */
+    z-index: 1; /* Nad obsahom */
 }
 
 @keyframes pulse {
-    0% { transform: scale(0); opacity: 1; }
-    100% { transform: scale(2); opacity: 0; }
+    0% {
+        clip-path: circle(0% at 50% 50%);
+        opacity: 1;
+    }
+    100% {
+        clip-path: circle(100% at 50% 50%);
+        opacity: 0;
+    }
 }
 
-.highlight span {
+.highlightx span {
     position: relative;
-    z-index: 2; /* Text bude nad animáciou */
+    z-index: 2; /* Text nad animáciou */
 }
