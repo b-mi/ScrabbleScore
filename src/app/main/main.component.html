@@ -13,9 +13,9 @@
                         </mat-chip>
                         <div class="flex-col">
                             <div class="score" [ngClass]="{'score-higher': player.score === maxScore}">
-                                {{player.score}}
+                                
+                                <div *ngIf="player.name === currentPlayer.name" class="highlight">{{player.score}}</div>
                             </div>
-                            <div *ngIf="player.name === currentPlayer.name" class="line"></div>
                         </div>
                     </div>
                 </ng-container>
