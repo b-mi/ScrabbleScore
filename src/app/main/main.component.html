@@ -13,8 +13,13 @@
                         </mat-chip>
                         <div class="flex-col">
                             <div class="score" [ngClass]="{'score-higher': player.score === maxScore}">
-                                <div *ngIf="player.name === currentPlayer.name"><span
-                                        class="highlight">{{player.score}}</span> </div>
+                                @if(player.name === currentPlayer.name){
+                                    <span
+                                    class="highlight highlight-effect">{{player.score}}</span>                                    
+                                } @else {
+                                    <span class="highlight"
+                                    >{{player.score}}</span>
+                                }
                             </div>
                         </div>
                     </div>

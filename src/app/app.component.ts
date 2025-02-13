@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
-import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
-import { filter, interval, map } from 'rxjs';
+import { SwUpdate } from '@angular/service-worker';
+import { MainComponent } from './main/main.component';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css'],
-    standalone: false
+    imports: [MainComponent],
+    standalone: true
 })
 export class AppComponent {
   title = 'ScrabbleScore';
