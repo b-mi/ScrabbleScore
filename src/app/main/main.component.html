@@ -1,8 +1,5 @@
 <mat-card class="mat-elevation-z0 card-content">
     <mat-card-content class="card-content">
-
-<button (click)="speech(37)">dddd</button>
-
         <div cdkDropList cdkDropListOrientation="horizontal" class="player-list" (cdkDropListDropped)="drop($event)">
             <ng-container *ngFor="let player of players">
                 <ng-container *ngIf="player.play">
