@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, CdkDropList, CdkDrag } from '@angular/cdk/drag-drop';
 import packageInfo from '../../../package.json';
 import { MatCard, MatCardContent } from '@angular/material/card';
@@ -12,20 +12,22 @@ import { MatIcon } from '@angular/material/icon';
 import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
 import { MatDivider } from '@angular/material/divider';
 import { MatCheckbox } from '@angular/material/checkbox';
+import { SpeechService } from '../speech.service';
 
 @Component({
-    selector: 'app-main',
-    templateUrl: './main.component.html',
-    styleUrls: ['./main.component.css'],
-    standalone: true,
-    imports: [MatCard, MatCardContent, CdkDropList, NgFor, NgIf, CdkDrag, 
-      MatChipsModule, NgClass, MatFormField, MatLabel, MatInput, 
-      ReactiveFormsModule, FormsModule, MatFabButton, MatIcon, MatButton, 
-      MatIconButton, MatMenuTrigger, MatMenu, MatMenuItem, MatDivider, 
-      MatCheckbox]
+  selector: 'app-main',
+  templateUrl: './main.component.html',
+  styleUrls: ['./main.component.css'],
+  standalone: true,
+  imports: [MatCard, MatCardContent, CdkDropList, NgFor, NgIf, CdkDrag,
+    MatChipsModule, NgClass, MatFormField, MatLabel, MatInput,
+    ReactiveFormsModule, FormsModule, MatFabButton, MatIcon, MatButton,
+    MatIconButton, MatMenuTrigger, MatMenu, MatMenuItem, MatDivider,
+    MatCheckbox]
 })
 export class MainComponent implements OnInit {
   appVersion: string = packageInfo.version;
+  private speechService = inject(SpeechService);
 
   players: any[] = [];
   currentPlayer: any;
@@ -103,14 +105,16 @@ export class MainComponent implements OnInit {
   addScore() {
     if (this.editMode) {
       this.currentPlayer.rows[this.editIndex] = this.scoreValue;
-      this.playSound(<number>this.scoreValue);
+      this.speech(<number>this.scoreValue);
+      // this.playSound(<number>this.scoreValue);
       this.sumScore();
       this.editMode = false;
       this.scoreValue = undefined;
       this.findCurrentPlayer();
     } else {
       this.currentPlayer.rows.push(this.scoreValue);
-      this.playSound(<number>this.scoreValue);
+      this.speech(<number>this.scoreValue);
+      // this.playSound(<number>this.scoreValue);
 
       if (this.currentPlayer.rows.length > this.rowIds.length) {
         this.rowIds.push(this.rowIds.length);
@@ -209,40 +213,46 @@ export class MainComponent implements OnInit {
     this.findCurrentPlayer();
   }
 
-  playSound(points: number) {
+  // playSound(points: number) {
 
-    const audioContext = new AudioContext();
+  //   const audioContext = new AudioContext();
 
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
-    oscillator.connect(gainNode); //.connect(merger, 0, 0);
-    gainNode.connect(audioContext.destination);
+  //   const oscillator = audioContext.createOscillator();
+  //   const gainNode = audioContext.createGain();
+  //   oscillator.connect(gainNode); //.connect(merger, 0, 0);
+  //   gainNode.connect(audioContext.destination);
 
-    gainNode.gain.value = 0.2;
-    oscillator.frequency.value = 40 + points * 50;
-    oscillator.type = 'sawtooth';
-    oscillator.start(0);
+  //   gainNode.gain.value = 0.2;
+  //   oscillator.frequency.value = 40 + points * 50;
+  //   oscillator.type = 'sawtooth';
+  //   oscillator.start(0);
 
-    oscillator.stop(0.2);
+  //   oscillator.stop(0.2);
 
+  // }
+
+  // playPressSnd() {
+  //   const audioContext = new AudioContext();
+
+  //   const oscillator = audioContext.createOscillator();
+  //   const gainNode = audioContext.createGain();
+  //   oscillator.connect(gainNode); //.connect(merger, 0, 0);
+  //   gainNode.connect(audioContext.destination);
+
+  //   gainNode.gain.value = 0.2;
+  //   oscillator.frequency.value = 2000;
+  //   oscillator.type = 'square';
+  //   oscillator.start(0);
+
+  //   oscillator.stop(0.01);
+  // }
+
+  speech(scoreValue: number) {
+    let text = `${this.currentPlayer.name} ${scoreValue}`;
+    if(text.includes('-'))
+      text = text.replace('-', 'mínus ');
+    this.speechService.speak(text);
   }
-
-  playPressSnd(){
-    const audioContext = new AudioContext();
-
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
-    oscillator.connect(gainNode); //.connect(merger, 0, 0);
-    gainNode.connect(audioContext.destination);
-
-    gainNode.gain.value = 0.2;
-    oscillator.frequency.value = 2000;
-    oscillator.type = 'square';
-    oscillator.start(0);
-
-    oscillator.stop(0.01);
-  }
-
 
 
 
