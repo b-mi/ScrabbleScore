@@ -5,7 +5,7 @@ import { MatCard, MatCardContent } from '@angular/material/card';
 import { NgFor, NgIf, NgClass } from '@angular/common';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
-import { MatInput } from '@angular/material/input';
+import { MatInput, MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatFabButton, MatButton, MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
@@ -35,7 +35,7 @@ export interface Player {
     MatChipsModule, NgClass, MatFormField, MatLabel, MatInput,
     ReactiveFormsModule, FormsModule, MatFabButton, MatIcon, MatButton,
     MatIconButton, MatMenuTrigger, MatMenu, MatMenuItem, MatDivider,
-    MatCheckbox]
+    MatCheckbox, MatInputModule]
 })
 export class MainComponent implements OnInit, OnDestroy {
   appVersion: string = packageInfo.version;

@@ -13,7 +13,7 @@
                         {{player.name}}
                     </span>
                 </mat-chip-option>
-                <div class="flex-col" (click)="info(true)">
+                <div class="flex-col">
                     <div class="score" [ngClass]="{'score-higher': player.score === maxScore}">
                         <span class="highlight">{{player.score}}</span>
 
@@ -36,12 +36,16 @@
 
         <div class="flex-col">
             <div>
-                <div class="add-score score">
-                    
+                <div class="flex-row">
+
                     <span class="tit-name">{{currentPlayer.name}}:</span>
                     <mat-form-field appearance="fill" class="score-field">
                         <mat-label>Skóre</mat-label>
                         <input matInput type="number" [(ngModel)]="scoreValue" readonly>
+                        <button mat-icon-button matSuffix (click)="addScore()"
+                            [disabled]="playersCount < 2 || scoreValue === undefined">
+                            <mat-icon>{{editMode ? 'edit' : 'save'}}</mat-icon>
+                        </button>
                     </mat-form-field>
 
 
@@ -98,13 +102,17 @@
                 <button mat-fab color="default" class="num" (click)="keyClick('-')">
                     +/-
                 </button>
+                <button mat-fab color="default" class="num" (click)="info(true)">
+                    <mat-icon>info</mat-icon>
+                </button>
+
                 <button mat-fab color="default" class="num" (click)="keyClick('BS')">
                     <mat-icon>backspace</mat-icon>
                 </button>
-                <button mat-fab color="primary" (click)="addScore()"
+                <!-- <button mat-fab color="primary" (click)="addScore()"
                     [disabled]="playersCount < 2 || scoreValue === undefined">
                     <mat-icon>{{editMode ? 'edit' : 'save'}}</mat-icon>
-                </button>
+                </button> -->
 
             </div>
 
