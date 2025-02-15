@@ -98,6 +98,7 @@
     border-bottom-width: 1px;
     border-bottom-color: #ccc;
     border-bottom-style: solid;
+    max-width: 500px;
 
 }
 
