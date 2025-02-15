@@ -140,6 +140,7 @@ export class MainComponent implements OnInit, OnDestroy {
     const oldBestPlayer = this.bestPlayer;
     const oldCurPlayer = this.currentPlayer;
     const oldScore = <number>this.scoreValue;
+    const oldEditMode = this.editMode;
     if (this.editMode) {
       this.currentPlayer.rows[this.editIndex] = this.scoreValue;
       // this.speech_score(<number>this.scoreValue);
@@ -169,14 +170,17 @@ export class MainComponent implements OnInit, OnDestroy {
     this.serialize();
     const newBestPlayer = this.bestPlayer;
     let msg = '';
-    if (oldBestPlayer?.id === newBestPlayer?.id) {
+    if (oldEditMode || !this.bestPlayer || oldBestPlayer?.id === newBestPlayer?.id) {
       msg = `${oldCurPlayer?.name} ${oldScore} ${this.sklonuj_body(oldScore)}`;
     } else {
+
+      console.log('aa', this.bestPlayer, oldBestPlayer, newBestPlayer);
+      
 
       const secondBestPlayer = this.players
         .filter(p => p.play && p.score < this.bestPlayer!.score)
         .reduce((a, b) => a.score > b.score ? a : b);
-      const diff = this.bestPlayer!.score - secondBestPlayer.score;
+      const diff = this.bestPlayer!.score - secondBestPlayer?.score;
 
 
       msg = `${oldCurPlayer?.name} ${oldScore} ${this.sklonuj_body(oldScore)} a vyhráva o ${diff} ${this.sklonuj_body(diff)}!`;
