@@ -174,9 +174,6 @@ export class MainComponent implements OnInit, OnDestroy {
       msg = `${oldCurPlayer?.name} ${oldScore} ${this.sklonuj_body(oldScore)}`;
     } else {
 
-      console.log('aa', this.bestPlayer, oldBestPlayer, newBestPlayer);
-      
-
       const secondBestPlayer = this.players
         .filter(p => p.play && p.score < this.bestPlayer!.score)
         .reduce((a, b) => a.score > b.score ? a : b);
