@@ -188,3 +188,10 @@
     font: var(--mat-sys-headline-medium);
     color: gray;
 }
+
+
+.tit-name {
+    display: inline-block;
+    font: var(--mat-sys-headline-medium);
+    padding-bottom: 1rem;
+}

@@ -37,10 +37,10 @@
         <div class="flex-col">
             <div>
                 <div class="add-score score">
-
-
+                    
+                    <span class="tit-name">{{currentPlayer.name}}:</span>
                     <mat-form-field appearance="fill" class="score-field">
-                        <mat-label>Skóre {{currentPlayer.name}}</mat-label>
+                        <mat-label>Skóre</mat-label>
                         <input matInput type="number" [(ngModel)]="scoreValue" readonly>
                     </mat-form-field>
 
