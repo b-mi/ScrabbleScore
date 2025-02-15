@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, CdkDropList, CdkDrag } from '@angular/cdk/drag-drop';
 import packageInfo from '../../../package.json';
 import { MatCard, MatCardContent } from '@angular/material/card';
@@ -13,6 +13,18 @@ import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
 import { MatDivider } from '@angular/material/divider';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { SpeechService } from '../speech.service';
+import { interval, Subscription } from 'rxjs';
+
+
+export interface Player {
+  id: string;
+  name: string;
+  play: boolean;
+  rows: any[];
+  score: number;
+  seconds: number;
+  minutes_seconds: string;
+}
 
 @Component({
   selector: 'app-main',
@@ -25,12 +37,12 @@ import { SpeechService } from '../speech.service';
     MatIconButton, MatMenuTrigger, MatMenu, MatMenuItem, MatDivider,
     MatCheckbox]
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, OnDestroy {
   appVersion: string = packageInfo.version;
   private speechService = inject(SpeechService);
 
-  players: any[] = [];
-  currentPlayer: any;
+  players: Player[] = [];
+  currentPlayer!: Player;
 
   scoreValue: number | undefined = undefined;
   playersCount: number = 0;
@@ -40,6 +52,8 @@ export class MainComponent implements OnInit {
   editIndex: number = 0;
   isEditingPlayers: boolean = false;
   maxScore: number = 0;
+  private timeSub!: Subscription;
+  bestPlayer: Player | undefined;
 
   constructor() {
     this.players = [];
@@ -52,15 +66,35 @@ export class MainComponent implements OnInit {
     this.deserialize();
 
   }
+
+
+  startWatch() {
+    this.timeSub = interval(1000).subscribe(() => {
+      this.currentPlayer.seconds += 1;
+      const minutes = Math.floor(this.currentPlayer.seconds / 60);
+      const seconds = this.currentPlayer.seconds % 60;
+      this.currentPlayer.minutes_seconds = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    });
+  }
+
   addPlayer(id: string, pname: string, play: boolean) {
     let xname = localStorage.getItem(id) ?? pname;
-    const data = { id: id, name: xname, play: play, rows: [], score: 0 };
-    this.players.push(data);
+    const p: Player = {
+      id: id,
+      name: xname,
+      play: play,
+      rows: [],
+      score: 0,
+      seconds: 0,
+      minutes_seconds: '-'
+    };
+    this.players.push(p);
   }
 
   ngOnInit(): void {
     this.getPlayersCount();
     this.findCurrentPlayer();
+    this.startWatch();
   }
 
   drop(event: CdkDragDrop<string[]>) {
@@ -103,9 +137,12 @@ export class MainComponent implements OnInit {
   }
 
   addScore() {
+    const oldBestPlayer = this.bestPlayer;
+    const oldCurPlayer = this.currentPlayer;
+    const oldScore = <number>this.scoreValue;
     if (this.editMode) {
       this.currentPlayer.rows[this.editIndex] = this.scoreValue;
-      this.speech(<number>this.scoreValue);
+      // this.speech_score(<number>this.scoreValue);
       // this.playSound(<number>this.scoreValue);
       this.sumScore();
       this.editMode = false;
@@ -113,8 +150,7 @@ export class MainComponent implements OnInit {
       this.findCurrentPlayer();
     } else {
       this.currentPlayer.rows.push(this.scoreValue);
-      this.speech(<number>this.scoreValue);
-      // this.playSound(<number>this.scoreValue);
+      // this.speech_score(<number>this.scoreValue);
 
       if (this.currentPlayer.rows.length > this.rowIds.length) {
         this.rowIds.push(this.rowIds.length);
@@ -131,7 +167,38 @@ export class MainComponent implements OnInit {
       this.findCurrentPlayer();
     }
     this.serialize();
+    const newBestPlayer = this.bestPlayer;
+    let msg = '';
+    if (oldBestPlayer?.id === newBestPlayer?.id) {
+      msg = `${oldCurPlayer?.name} ${oldScore} ${this.sklonuj_body(oldScore)}`;
+    } else {
+
+      const secondBestPlayer = this.players
+        .filter(p => p.play && p.score < this.bestPlayer!.score)
+        .reduce((a, b) => a.score > b.score ? a : b);
+      const diff = this.bestPlayer!.score - secondBestPlayer.score;
+
+
+      msg = `${oldCurPlayer?.name} ${oldScore} ${this.sklonuj_body(oldScore)} a vyhráva o ${diff} ${this.sklonuj_body(diff)}!`;
+    }
+    this.speechService.speak(msg);
+
   }
+  sklonuj_body(body: number) {
+    switch (body) {
+      case 1:
+        return 'bod';
+      case 2:
+      case 3:
+      case 4:
+        return 'body';
+      case 5:
+
+      default:
+        return 'bodov';
+    }
+  }
+
   serialize() {
     localStorage.setItem('scrb', JSON.stringify(this.players))
     localStorage.setItem('scrbr', JSON.stringify(this.rowIds))
@@ -149,34 +216,34 @@ export class MainComponent implements OnInit {
     }
   }
 
-
   findCurrentPlayer() {
-    const plyrs = this.players.filter(i => i.play === true);
-    let maxIdx = this.rowIds[this.rowIds.length - 1];
+    const activePlayers = this.players.filter(p => p.play);
+    const maxIdx = this.rowIds[this.rowIds.length - 1];
 
     if (maxIdx === undefined) {
-      this.currentPlayer = plyrs[0];
+      this.currentPlayer = activePlayers[0];
       return;
     }
 
-    this.currentPlayer = null;
-    for (let index = 0; index < plyrs.length; index++) {
-      if ((plyrs[index].rows[maxIdx] ?? -1) === -1)
-        this.currentPlayer = plyrs[index];
-    }
-
-    if (!this.currentPlayer)
-      this.currentPlayer = plyrs[0];
-
+    this.currentPlayer =
+      activePlayers.find(p => (p.rows[maxIdx] ?? -1) === -1) || activePlayers[0];
   }
+
+
   sumScore() {
-    this.currentPlayer.score = this.currentPlayer.rows.reduce((a: number, b: number) => a + b, 0);
+    this.currentPlayer!.score = this.currentPlayer!.rows.reduce((a: number, b: number) => a + b, 0);
     this.calcMaxScore();
   }
 
   private calcMaxScore() {
     this.maxScore = 0;
     this.players.filter(p => p.play).forEach(p => this.maxScore = Math.max(this.maxScore, p.score));
+    const bestPlayers = this.players.filter(p => p.play && p.score == this.maxScore);
+    if (bestPlayers.length == 1) {
+      this.bestPlayer = bestPlayers[0];
+    } else {
+      this.bestPlayer = undefined;
+    }
   }
 
   getPlayersCount() {
@@ -205,55 +272,43 @@ export class MainComponent implements OnInit {
   reset() {
     this.rowIds = [];
     this.maxScore = 0;
+    this.bestPlayer = undefined;
     this.players.forEach(player => {
       player.rows = [];
       player.score = 0;
+      player.seconds = 0;
+      player.minutes_seconds = '-'
     });
     this.serialize();
     this.findCurrentPlayer();
   }
 
-  // playSound(points: number) {
-
-  //   const audioContext = new AudioContext();
-
-  //   const oscillator = audioContext.createOscillator();
-  //   const gainNode = audioContext.createGain();
-  //   oscillator.connect(gainNode); //.connect(merger, 0, 0);
-  //   gainNode.connect(audioContext.destination);
-
-  //   gainNode.gain.value = 0.2;
-  //   oscillator.frequency.value = 40 + points * 50;
-  //   oscillator.type = 'sawtooth';
-  //   oscillator.start(0);
-
-  //   oscillator.stop(0.2);
-
+  // speech_score(scoreValue: number) {
+  //   let text = `${this.currentPlayer!.name} ${scoreValue}`;
+  //   if (text.includes('-'))
+  //     text = text.replace('-', 'mínus ');
+  //   this.speechService.speak(text);
   // }
 
-  // playPressSnd() {
-  //   const audioContext = new AudioContext();
-
-  //   const oscillator = audioContext.createOscillator();
-  //   const gainNode = audioContext.createGain();
-  //   oscillator.connect(gainNode); //.connect(merger, 0, 0);
-  //   gainNode.connect(audioContext.destination);
-
-  //   gainNode.gain.value = 0.2;
-  //   oscillator.frequency.value = 2000;
-  //   oscillator.type = 'square';
-  //   oscillator.start(0);
-
-  //   oscillator.stop(0.01);
-  // }
-
-  speech(scoreValue: number) {
-    let text = `${this.currentPlayer.name} ${scoreValue}`;
-    if(text.includes('-'))
-      text = text.replace('-', 'mínus ');
-    this.speechService.speak(text);
+  ngOnDestroy(): void {
+    if (this.timeSub) {
+      this.timeSub.unsubscribe();
+    }
   }
 
 
+  info(do_speech: boolean) {
+    const secondBestPlayer = this.players
+      .filter(p => p.play && p.score < this.bestPlayer!.score)
+      .reduce((a, b) => a.score > b.score ? a : b);
+    const diff = this.bestPlayer!.score - secondBestPlayer.score;
+    const msg = `${this.bestPlayer!.name} vyhráva o ${diff} ${this.sklonuj_body(diff)}!`
+    if (do_speech) {
+      this.speechService.speak(msg);
+
+    }
+  }
+
 
 }
+

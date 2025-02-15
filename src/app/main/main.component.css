@@ -170,43 +170,11 @@
 
 .highlight {
     position: relative;
-    display: inline-block;
-    padding: 10px;
+    /* display: inline-block; */
     background: white;
     overflow: hidden;
 }
 
-.highlight-effect::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 255, 64, 0.4);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    clip-path: circle(0% at 50% 50%);
-    animation: pulse 1s infinite;
-    z-index: 1;
-}
-
-@keyframes pulse {
-    0% {
-        clip-path: circle(0% at 50% 50%);
-        opacity: 1;
-    }
-
-    50% {
-        clip-path: circle(50% at 50% 50%);
-        opacity: 0.5;
-    }
-
-    100% {
-        clip-path: circle(100% at 50% 50%);
-        opacity: 0;
-    }
-}
 
 .highlight span {
     position: relative;
