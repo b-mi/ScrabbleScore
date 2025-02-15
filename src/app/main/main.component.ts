@@ -217,19 +217,41 @@ export class MainComponent implements OnInit, OnDestroy {
     }
   }
 
+  // findCurrentPlayer() {
+  //   const activePlayers = this.players.filter(p => p.play);
+  //   const maxIdx = this.rowIds[this.rowIds.length - 1];
+
+  //   if (maxIdx === undefined) {
+  //     this.currentPlayer = activePlayers[0];
+  //     return;
+  //   }
+
+  //   this.currentPlayer =
+  //     activePlayers.find(p => (p.rows[maxIdx] ?? -1) === -1) || activePlayers[0];
+  // }
+
+
   findCurrentPlayer() {
-    const activePlayers = this.players.filter(p => p.play);
-    const maxIdx = this.rowIds[this.rowIds.length - 1];
+    const activePlayers = this.players.filter(i => i.play === true);
+    let maxIdx = this.rowIds[this.rowIds.length - 1];
 
     if (maxIdx === undefined) {
       this.currentPlayer = activePlayers[0];
       return;
     }
 
-    this.currentPlayer =
-      activePlayers.find(p => (p.rows[maxIdx] ?? -1) === -1) || activePlayers[0];
-  }
+    this.currentPlayer = activePlayers[0];
+    for (let index = 0; index < activePlayers.length; index++) {
+      if ((activePlayers[index].rows[maxIdx] ?? -1) === -1){
+        this.currentPlayer = activePlayers[index]
+        break;
+      }
+    }
 
+    if (!this.currentPlayer)
+      this.currentPlayer = activePlayers[0];
+
+  }  
 
   sumScore() {
     this.currentPlayer!.score = this.currentPlayer!.rows.reduce((a: number, b: number) => a + b, 0);
