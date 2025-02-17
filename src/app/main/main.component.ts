@@ -118,6 +118,12 @@ export class MainComponent implements OnInit, OnDestroy {
       case '-':
         newVal = -val;
         break;
+      case '*2':
+        newVal = val * 2;
+        break;
+      case '*3':
+        newVal = val * 3;
+        break;
       case 'BS':
         if (sval.length) {
           sval = sval.substring(0, sval.length - 1);
@@ -242,7 +248,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
     this.currentPlayer = activePlayers[0];
     for (let index = 0; index < activePlayers.length; index++) {
-      if ((activePlayers[index].rows[maxIdx] ?? -1) === -1){
+      if ((activePlayers[index].rows[maxIdx] ?? -1) === -1) {
         this.currentPlayer = activePlayers[index]
         break;
       }
@@ -251,7 +257,7 @@ export class MainComponent implements OnInit, OnDestroy {
     if (!this.currentPlayer)
       this.currentPlayer = activePlayers[0];
 
-  }  
+  }
 
   sumScore() {
     this.currentPlayer!.score = this.currentPlayer!.rows.reduce((a: number, b: number) => a + b, 0);

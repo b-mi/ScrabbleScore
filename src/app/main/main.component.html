@@ -37,8 +37,7 @@
         <div class="flex-col">
             <div>
                 <div class="flex-row">
-
-                    <span class="tit-name">{{currentPlayer.name}}:</span>
+                    <button mat-flat-button (click)="info(true)" style="margin-bottom: 10px;">{{currentPlayer.name}}</button>
                     <mat-form-field appearance="fill" class="score-field">
                         <mat-label>Skóre</mat-label>
                         <input matInput type="number" [(ngModel)]="scoreValue" readonly>
@@ -102,8 +101,14 @@
                 <button mat-fab color="default" class="num" (click)="keyClick('-')">
                     +/-
                 </button>
-                <button mat-fab color="default" class="num" (click)="info(true)">
-                    <mat-icon>info</mat-icon>
+                <button mat-fab color="default" class="num" (click)="keyClick('*2')">
+                    *2
+                </button>
+                <button mat-fab color="default" class="num" (click)="keyClick('*3')">
+                    *3
+                </button>
+
+                <button mat-fab color="default" class="num" disabled>
                 </button>
 
                 <button mat-fab color="default" class="num" (click)="keyClick('BS')">
