@@ -55,14 +55,6 @@ export class MainComponent implements OnInit, OnDestroy {
   private timeSub!: Subscription;
   bestPlayer: Player | undefined;
 
-
-  kecy = [
-    'Aha?',
-    'Ou máj gááát!',
-    'No jasne!',
-    'Čo je to?'
-  ]
-
   constructor() {
     this.players = [];
     this.addPlayer('p1', 'Hráč 1', true);
@@ -155,7 +147,6 @@ export class MainComponent implements OnInit, OnDestroy {
     const oldCurPlayer = this.currentPlayer;
     const oldScore = <number>this.scoreValue;
     const oldEditMode = this.editMode;
-    const isVierka = oldCurPlayer.name.startsWith('Vier');
     if (this.editMode) {
       this.currentPlayer.rows[this.editIndex] = this.scoreValue;
       // this.speech_score(<number>this.scoreValue);
@@ -196,10 +187,6 @@ export class MainComponent implements OnInit, OnDestroy {
 
 
       msg = `${oldCurPlayer?.name} ${oldScore} ${this.sklonuj_body(oldScore)} a vyhráva o ${diff} ${this.sklonuj_body(diff)}!`;
-    }
-    if( isVierka && oldScore >= 20 ){
-      const kecIdx = Math.floor(Math.random() * this.kecy.length);
-      msg += `. ${this.kecy[kecIdx]}`;
     }
     this.speechService.speak(msg);
 
