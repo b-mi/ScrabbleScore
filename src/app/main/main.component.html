@@ -1,192 +1,181 @@
 <mat-card class="mat-elevation-z0 card-content">
-    <mat-card-content class="card-content">
-        <div cdkDropList cdkDropListOrientation="horizontal" class="player-list" (cdkDropListDropped)="drop($event)">
-            @for (player of players; track $index) {
-            @if(player.play){
+  <mat-card-content class="card-content">
+    <div cdkDropList cdkDropListOrientation="horizontal" class="player-list" (cdkDropListDropped)="drop($event)">
+      @for (player of players; track $index) {
+        @if(player.play){
 
-            <!-- <mat-chip-listbox> -->
-            <div class="player-box" cdkDrag>
-                <mat-chip-option class="chip no-click" color="warn" [selected]="player.name === currentPlayer.name"
-                    (click)="playerClick(player)">
+          <!-- <mat-chip-listbox> -->
+          <div class="player-box" cdkDrag>
+            <mat-chip-option class="chip no-click" color="warn" [selected]="player.name === currentPlayer.name"
+              (click)="playerClick(player)">
 
-                    <span class="player-name">
-                        {{player.name}}
-                    </span>
-                </mat-chip-option>
-                <div class="flex-col">
-                    <div class="score" [ngClass]="{'score-higher': player.score === maxScore}">
-                        <span class="highlight">{{player.score}}</span>
+              <span class="player-name">
+                {{player.name}}
+              </span>
+            </mat-chip-option>
+            <div class="flex-col">
+              <div class="score" [ngClass]="{'score-higher': player.score === maxScore}">
+                <span class="highlight">{{player.score}}</span>
 
-                    </div>
-
-                </div>
-                <span class="tit-medium">
-                    {{player.minutes_seconds}}
-                </span>
-            </div>
-            <!-- </mat-chip-listbox> -->
-            }
-            }
-
-        </div>
-
-    </mat-card-content>
-
-    <mat-card-content *ngIf="!isEditingPlayers" style="margin-right: 15px;">
-
-        <div class="flex-col">
-            <div>
-                <div class="flex-row">
-                    <button mat-flat-button (click)="info(true)" style="margin-bottom: 10px;">{{currentPlayer.name}}</button>
-                    <mat-form-field appearance="fill" class="score-field">
-                        <mat-label>Skóre</mat-label>
-                        <input matInput type="number" [(ngModel)]="scoreValue" readonly>
-                        <button mat-icon-button matSuffix (click)="addScore()"
-                            [disabled]="playersCount < 2 || scoreValue === undefined">
-                            <mat-icon>{{editMode ? 'edit' : 'save'}}</mat-icon>
-                        </button>
-                    </mat-form-field>
-
-
-                </div>
+              </div>
 
             </div>
-        </div>
-    </mat-card-content>
-    <mat-card-content class="card-content" *ngIf="!isEditingPlayers">
-        <div class="flex-col">
+            <span class="tit-medium">
+              {{player.minutes_seconds}}
+            </span>
+          </div>
+        <!-- </mat-chip-listbox> -->
+      }
+    }
 
-            <div class="flex-row">
+  </div>
 
-                <button mat-fab color="default" class="num" (click)="keyClick('1')">
-                    1
-                </button>
-                <button mat-fab color="default" class="num" (click)="keyClick('2')">
-                    2
-                </button>
-                <button mat-fab color="default" class="num" (click)="keyClick('3')">
-                    3
-                </button>
-                <button mat-fab color="default" class="num" (click)="keyClick('4')">
-                    4
-                </button>
-                <button mat-fab color="default" class="num" (click)="keyClick('5')">
-                    5
-                </button>
+</mat-card-content>
 
-            </div>
-            <div class="flex-row">
-
-                <button mat-fab color="default" class="num" (click)="keyClick('6')">
-                    6
-                </button>
-                <button mat-fab color="default" class="num" (click)="keyClick('7')">
-                    7
-                </button>
-                <button mat-fab color="default" class="num" (click)="keyClick('8')">
-                    8
-                </button>
-                <button mat-fab color="default" class="num" (click)="keyClick('9')">
-                    9
-                </button>
-                <button mat-fab color="default" class="num" (click)="keyClick('0')">
-                    0
-                </button>
-
-            </div>
-
-
-            <div class="flex-row">
-
-                <button mat-fab color="default" class="num" (click)="keyClick('-')">
-                    +/-
-                </button>
-                <button mat-fab color="default" class="num" (click)="keyClick('*2')">
-                    *2
-                </button>
-                <button mat-fab color="default" class="num" (click)="keyClick('*3')">
-                    *3
-                </button>
-
-                <button mat-fab color="default" class="num" disabled>
-                </button>
-
-                <button mat-fab color="default" class="num" (click)="keyClick('BS')">
-                    <mat-icon>backspace</mat-icon>
-                </button>
-                <!-- <button mat-fab color="primary" (click)="addScore()"
-                    [disabled]="playersCount < 2 || scoreValue === undefined">
-                    <mat-icon>{{editMode ? 'edit' : 'save'}}</mat-icon>
-                </button> -->
-
-            </div>
-
-        </div>
-    </mat-card-content>
-
-    <!-- SCORE -->
-    <mat-card-content *ngIf="!isEditingPlayers" id="scrlst" class="card-content score-log">
-        <div class="flex-col scrollable-content">
-
-
-            <div class="flex-row" *ngFor="let id of rowIds; let i = index">
-                <button mat-stroked-button class="player-box" *ngFor="let player of players"
-                    [disabled]="player.rows[i] === undefined" (click)="editScore(player, i)">
-                    <span class="num">
-                        {{player.rows[i] ?? '-'}}
-
-                    </span>
-                </button>
-            </div>
-
-        </div>
-    </mat-card-content>
-    <mat-card-content>
+@if (!isEditingPlayers) {
+  <mat-card-content style="margin-right: 15px;">
+    <div class="flex-col">
+      <div>
         <div class="flex-row">
-
-            <div>
-                <small><small>Scrabble Score v. {{appVersion}}</small></small>
-            </div>
-
-            <button mat-icon-button [matMenuTriggerFor]="menu">
-                <mat-icon aria-label="label">more_vert</mat-icon>
+          <button mat-flat-button (click)="info(true)" style="margin-bottom: 10px;">{{currentPlayer.name}}</button>
+          <mat-form-field appearance="fill" class="score-field">
+            <mat-label>Skóre</mat-label>
+            <input matInput type="number" [(ngModel)]="scoreValue" readonly>
+            <button mat-icon-button matSuffix (click)="addScore()"
+              [disabled]="playersCount < 2 || scoreValue === undefined">
+              <mat-icon>{{editMode ? 'edit' : 'save'}}</mat-icon>
             </button>
-            <mat-menu #menu="matMenu">
-                <a mat-menu-item href="https://slovnik.juls.savba.sk/" target="_blank">JULS</a>
-                <a mat-menu-item href="https://google.sk/" target="_blank">Google</a>
-                <button mat-menu-item (click)="renamePlayers()">Premenovať hráčov</button>
-                <mat-divider></mat-divider>
-                <button mat-menu-item (click)="reset()">Reset</button>
-            </mat-menu>
-
+          </mat-form-field>
         </div>
-    </mat-card-content>
+      </div>
+    </div>
+  </mat-card-content>
+}
+@if (!isEditingPlayers) {
+  <mat-card-content class="card-content">
+    <div class="flex-col">
+      <div class="flex-row">
+        <button mat-fab color="default" class="num" (click)="keyClick('1')">
+          1
+        </button>
+        <button mat-fab color="default" class="num" (click)="keyClick('2')">
+          2
+        </button>
+        <button mat-fab color="default" class="num" (click)="keyClick('3')">
+          3
+        </button>
+        <button mat-fab color="default" class="num" (click)="keyClick('4')">
+          4
+        </button>
+        <button mat-fab color="default" class="num" (click)="keyClick('5')">
+          5
+        </button>
+      </div>
+      <div class="flex-row">
+        <button mat-fab color="default" class="num" (click)="keyClick('6')">
+          6
+        </button>
+        <button mat-fab color="default" class="num" (click)="keyClick('7')">
+          7
+        </button>
+        <button mat-fab color="default" class="num" (click)="keyClick('8')">
+          8
+        </button>
+        <button mat-fab color="default" class="num" (click)="keyClick('9')">
+          9
+        </button>
+        <button mat-fab color="default" class="num" (click)="keyClick('0')">
+          0
+        </button>
+      </div>
+      <div class="flex-row">
+        <button mat-fab color="default" class="num" (click)="keyClick('-')">
+          +/-
+        </button>
+        <button mat-fab color="default" class="num" (click)="keyClick('*2')">
+          *2
+        </button>
+        <button mat-fab color="default" class="num" (click)="keyClick('*3')">
+          *3
+        </button>
+        <button mat-fab color="default" class="num" disabled>
+        </button>
+        <button mat-fab color="default" class="num" (click)="keyClick('BS')">
+          <mat-icon>backspace</mat-icon>
+        </button>
+        <!-- <button mat-fab color="primary" (click)="addScore()"
+        [disabled]="playersCount < 2 || scoreValue === undefined">
+        <mat-icon>{{editMode ? 'edit' : 'save'}}</mat-icon>
+      </button> -->
+    </div>
+  </div>
+</mat-card-content>
+}
 
-    <mat-card-content *ngIf="isEditingPlayers" class="flex-col">
-
-        <div *ngFor="let player of players">
-            <div class="flex-row">
-
-                <mat-form-field appearance="fill" class="score-field">
-                    <mat-label>Meno hráča</mat-label>
-                    <input matInput [(ngModel)]="player.name">
-                </mat-form-field>
-
-                <mat-checkbox [(ngModel)]="player.play"></mat-checkbox>
-
-            </div>
-        </div>
-        <div>
-            <button mat-fab (click)="savePlayerName()">
-                <mat-icon aria-label="label">save</mat-icon>
+<!-- SCORE -->
+@if (!isEditingPlayers) {
+  <mat-card-content id="scrlst" class="card-content score-log">
+    <div class="flex-col scrollable-content">
+      @for (id of rowIds; track id; let i = $index) {
+        <div class="flex-row">
+          @for (player of players; track player) {
+            <button mat-stroked-button class="player-box"
+              [disabled]="player.rows[i] === undefined" (click)="editScore(player, i)">
+              <span class="num">
+                {{player.rows[i] ?? '-'}}
+              </span>
             </button>
+          }
         </div>
+      }
+    </div>
+  </mat-card-content>
+}
+<mat-card-content>
+  <div class="flex-row">
 
-    </mat-card-content>
+    <div>
+      <small><small>Scrabble Score v. {{appVersion}}</small></small>
+    </div>
+
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon aria-label="label">more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <a mat-menu-item href="https://slovnik.juls.savba.sk/" target="_blank">JULS</a>
+      <a mat-menu-item href="https://google.sk/" target="_blank">Google</a>
+      <button mat-menu-item (click)="renamePlayers()">Premenovať hráčov</button>
+      <mat-divider></mat-divider>
+      <button mat-menu-item (click)="reset()">Reset</button>
+    </mat-menu>
+
+  </div>
+</mat-card-content>
+
+@if (isEditingPlayers) {
+  <mat-card-content class="flex-col">
+    @for (player of players; track player) {
+      <div>
+        <div class="flex-row">
+          <mat-form-field appearance="fill" class="score-field">
+            <mat-label>Meno hráča</mat-label>
+            <input matInput [(ngModel)]="player.name">
+          </mat-form-field>
+          <mat-checkbox [(ngModel)]="player.play"></mat-checkbox>
+        </div>
+      </div>
+    }
+    <div>
+      <button mat-fab (click)="savePlayerName()">
+        <mat-icon aria-label="label">save</mat-icon>
+      </button>
+    </div>
+  </mat-card-content>
+}
 </mat-card>
 
 
 <!-- <pre>
-    {{maxScore}}
+{{maxScore}}
 </pre> -->
 <!-- {{players | json}} -->

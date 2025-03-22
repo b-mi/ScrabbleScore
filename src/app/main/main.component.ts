@@ -2,7 +2,7 @@ import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, CdkDropList, CdkDrag } from '@angular/cdk/drag-drop';
 import packageInfo from '../../../package.json';
 import { MatCard, MatCardContent } from '@angular/material/card';
-import { NgFor, NgIf, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput, MatInputModule } from '@angular/material/input';
@@ -31,11 +31,7 @@ export interface Player {
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.css'],
   standalone: true,
-  imports: [MatCard, MatCardContent, CdkDropList, NgFor, NgIf, CdkDrag,
-    MatChipsModule, NgClass, MatFormField, MatLabel, MatInput,
-    ReactiveFormsModule, FormsModule, MatFabButton, MatIcon, MatButton,
-    MatIconButton, MatMenuTrigger, MatMenu, MatMenuItem, MatDivider,
-    MatCheckbox, MatInputModule]
+  imports: [MatCard, MatCardContent, CdkDropList, CdkDrag, MatChipsModule, NgClass, MatFormField, MatLabel, MatInput, ReactiveFormsModule, FormsModule, MatFabButton, MatIcon, MatButton, MatIconButton, MatMenuTrigger, MatMenu, MatMenuItem, MatDivider, MatCheckbox, MatInputModule]
 })
 export class MainComponent implements OnInit, OnDestroy {
   appVersion: string = packageInfo.version;
